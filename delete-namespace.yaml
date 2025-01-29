@@ -1,0 +1,29 @@
+---
+# Add namespace to k8s cluster
+- hosts: keepalived_vip
+  become: true
+  tasks:
+  
+  - name: Create dev namespace
+    k8s:
+      name: dev
+      # if you not sure about api version then use this ( $ kubectl explain namespace ) command in kubernetes.
+      api_version: v1
+      kind: namespace
+      state: absent
+      
+  - name: Create test namespace
+    k8s:
+      state: absent
+      definition:
+        apiVersion: v1
+        kind: namespace
+        metadata:
+          name: test
+
+  - name: Create prod namespace
+    k8s:
+      state: absent
+      definition: "{{ lookup('file', '~/ansible-kubernetes-tutorial/namespace.yaml') | from_yaml }}"
+      # use src module if ansible host and k8s control plane node in the same node
+      #src: namespace.yaml
