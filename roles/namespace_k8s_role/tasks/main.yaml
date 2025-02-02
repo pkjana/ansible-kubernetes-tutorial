@@ -1,0 +1,9 @@
+---
+- name: Create test namespace
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: namespace
+      metadata:
+        name: test-ns
