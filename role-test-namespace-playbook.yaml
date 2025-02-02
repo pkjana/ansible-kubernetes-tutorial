@@ -1,0 +1,7 @@
+---
+
+- hosts: keepalived_vip
+  become: true
+
+  roles:
+    - role: namespace_k8s_role
