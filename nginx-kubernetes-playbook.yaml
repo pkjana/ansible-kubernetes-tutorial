@@ -1,0 +1,14 @@
+---
+- hosts: keepalived_vip
+  become: true
+
+  roles:
+    - role: nginx_k8s_role
+      vars:
+        # Use deployment_type variable in ansible-playbook commandline ( --extra-vars | e "deployment_type = deploy | uninstall" )
+        # ansible-playbook --ask-become-pass -e "deployment_type=deploy" nginx-kubernetes-playbook.yaml
+        # ansible-playbook --ask-become-pass -e "deployment_type=uninstall" nginx-kubernetes-playbook.yaml
+        # ansible-playbook --ask-become-pass nginx-kubernetes-playbook.yaml
+        action: "{{ deployment_type | default('deploy') }}"
+        enable_nginx: true
+        target_nodes: ["worker-node-2", "worker-node-3"]
