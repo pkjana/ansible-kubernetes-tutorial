@@ -1,0 +1,32 @@
+---
+- name: Create  namespace
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: namespace
+      metadata:
+        name: "{{ k8s_namespace }}"
+
+#- name: Include deploy or uninstall tasks based on action
+  #include_tasks: "{{ item }}.yaml"
+  #with_items:
+    #- "deploy"
+    #- "uninstall"
+  #when:
+    #- action == "deploy" or action is not defined
+    #- action == "uninstall"
+    #- enable_nginx
+
+  #debug:
+    # msg: "{{ item }} is going to execute"
+
+
+- name: Include deploy task
+  include_tasks: deploy.yaml
+  when: (action == 'deploy') or (action is not defined)
+
+- name: Include uninstall task
+  include_tasks: uninstall.yaml
+  when: action == 'uninstall'
+
