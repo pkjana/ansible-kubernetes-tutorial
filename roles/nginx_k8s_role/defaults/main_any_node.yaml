@@ -1,0 +1,10 @@
+---
+k8s_namespace: kube-nginx-ns
+nginx_deployment_name: nginx-deployment
+nginx_service_name: nginx-service
+nginx_image: nginx:latest
+nginx_replicas: 1
+  # enable_nginx a switch/variable defined to enable disable nginx role. Default should be false.
+enable_nginx: false
+ansible_python_interpreter: "/usr/bin/python3"
+kubeconfig_file: ~/.kube/config
