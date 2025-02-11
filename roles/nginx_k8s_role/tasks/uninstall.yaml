@@ -1,0 +1,16 @@
+---
+- name: Delete Nginx Deployment
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_file }}"
+    state: absent
+    namespace: "{{ k8s_namespace }}"
+    kind: Deployment
+    name: "{{ nginx_deployment_name }}"
+
+- name: Delete Nginx Service
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_file }}"
+    state: absent
+    namespace: "{{ k8s_namespace }}"
+    kind: Service
+    name: "{{ nginx_service_name }}"
