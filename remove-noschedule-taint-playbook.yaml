@@ -1,0 +1,25 @@
+---
+- name: Manage Kubernetes Node Taints and Labels
+  hosts: keepalived_vip
+  become: true
+  gather_facts: no
+  tasks:
+    - name: Remove NoSchedule taint from master-2 and master-3
+      command: >
+        kubectl taint nodes {{ item }} node-role.kubernetes.io/control-plane:NoSchedule-
+      with_items:
+        - control-plane-1
+        - control-plane-2
+      register: taint_removal
+      changed_when: "'taint' in taint_removal.stdout or 'taint' in taint_removal.stderr"
+
+    - name: Add label node-role.kubernetes.io/ceph=ceph to worker nodes
+      command: >
+        kubectl label nodes {{ item }} node-role.kubernetes.io/ceph=ceph --overwrite
+      with_items:
+        - worker-node-1
+        - worker-node-2
+        - worker-node-3
+      register: label_addition
+      changed_when: "'labeled' in label_addition.stdout or 'labeled' in label_addition.stderr"
+
