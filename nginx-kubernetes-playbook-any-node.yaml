@@ -1,0 +1,9 @@
+---
+- hosts: keepalived_vip
+  become: true
+
+  roles:
+    - role: nginx_k8s_role
+      vars:
+        action: deploy
+        enable_nginx: true
