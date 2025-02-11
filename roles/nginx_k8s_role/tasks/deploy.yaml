@@ -1,0 +1,14 @@
+---
+- name: Deploy Nginx Deployment
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_file }}"
+    namespace: "{{ k8s_namespace }}"
+    state: present
+    definition: "{{ lookup('template', 'nginx-deployment.yaml.j2') }}"
+
+- name: Deploy Nginx Service
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_file }}"
+    namespace: "{{ k8s_namespace }}"
+    state: present
+    definition: "{{ lookup('template', 'nginx-service.yaml.j2') }}"
