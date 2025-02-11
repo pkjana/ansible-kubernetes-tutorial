@@ -1,0 +1,40 @@
+---
+# Deploying Application to Kubernetes
+- hosts: keepalived_vip
+  become: true
+  gather_facts: true
+  vars:
+    kubeconfig_file: ~/.kube/config
+    namespace_name: kube-app-ns
+    ansible_python_interpreter: "/usr/bin/python3"
+
+  tasks:
+
+  - name: Create k8s namespace
+    kubernetes.core.k8s:
+      kubeconfig: "{{ kubeconfig_file }}"
+      name: "{{ namespace_name }}"
+      api_version: v1
+      kind: namespace
+      state: present
+
+  - name: Get k8s resource manifesto files
+    set_fact:
+      config_directory: '{{ "~/ansible-kubernetes-tutorial" | expanduser }}'
+
+  - name: Create Deployment
+    kubernetes.core.k8s:
+      kubeconfig: "{{ kubeconfig_file }}"
+      namespace: "{{ namespace_name }}"
+      definition: "{{ lookup('file', '~/ansible-kubernetes-tutorial/app-deploy.yaml') | from_yaml }}"
+      # use src module when k8s and ansible installed in same host ( i.e localhost )
+        #src: "{{ config_directory }}/app-deploy.yaml"
+      state: present
+
+  - name: Expose Application on NodePort
+    kubernetes.core.k8s:
+      kubeconfig: "{{ kubeconfig_file }}"
+      namespace: "{{ namespace_name }}"
+      definition: "{{ lookup('file', '~/ansible-kubernetes-tutorial/app-service.yaml') | from_yaml }}"
+        #src: '{{ config_directory }}/app-service.yaml'
+      state: present
