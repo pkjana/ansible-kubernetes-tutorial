@@ -45,7 +45,7 @@ pkjana@control-plane-1:~$
 	
 ## Ansible Managed Nodes ( A Kubernetes Cluster)	
 
-  192.168.60.101 control-plane-1
+        192.168.60.101 control-plane-1
 	192.168.60.102 control-plane-2
 	192.168.60.103 control-plane-3
 		
@@ -81,14 +81,15 @@ root@control-plane-1:~# vi /etc/netplan/50-cloud-init.yaml
 
 Testing the Configuration
 	
- $ sudo netplan try
+    $ sudo netplan try
 	
 The New configuration can then be applied using the netplan command.
 	
-	$ sudo netplan apply
+    $ sudo netplan apply
 
 Confirm the IP configured successfully or not
-$ ip a
+
+    $ ip a
 
 
 # Configure Hostname for each host
@@ -109,7 +110,7 @@ S hostname
 
 Step 1: Open /etc/hostname and Change the Hostname
 
-$ sudo vim /etc/hostname
+    $ sudo vim /etc/hostname
 
 Step 2: Open /etc/hosts and Change the Hostname
 
