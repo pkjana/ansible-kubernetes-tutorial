@@ -45,7 +45,7 @@ pkjana@control-plane-1:~$
 	
 ## Ansible Managed Nodes ( A Kubernetes Cluster)	
 
-        192.168.60.101 control-plane-1
+    192.168.60.101 control-plane-1
 	192.168.60.102 control-plane-2
 	192.168.60.103 control-plane-3
 		
@@ -65,6 +65,7 @@ root@control-plane-1:~# cat /etc/netplan/50-cloud-init.yaml
 # network configuration capabilities, write a file
 # /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
 # network: {config: disabled}
+```yaml
 network:
     ethernets:
         enp0s3:
@@ -76,6 +77,7 @@ network:
                 addresses: []
                 search: []
     version: 2
+```
 root@control-plane-1:~# vi /etc/netplan/50-cloud-init.yaml
 
 
